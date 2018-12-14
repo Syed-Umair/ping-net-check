@@ -21,7 +21,7 @@ describe ('Ping based NetCheck', () => {
     });
 
     test('test hitIp method with valid parameters', async ()=> {
-        expect(await hitIp('127.0.0.1', 2000)).toBeTruthy();
+        expect(await hitIp('172.217.18.196', 2000)).toBeTruthy();
     });
 
     test('test netCheck method', async () => {
