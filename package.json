@@ -1,0 +1,50 @@
+{
+  "name": "ping-net-check",
+  "version": "1.0.0",
+  "description": "Using net-ping to check internet connectivity.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Syed-Umair/ping-net-check.git"
+  },
+  "author": "Syed Umair",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Syed-Umair/ping-net-check/issues"
+  },
+  "homepage": "https://github.com/Syed-Umair/ping-net-check#readme",
+  "scripts": {
+    "test": "jest --forceExit"
+  },
+  "files": [
+    "index.js"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
+  "keywords": [
+    "online",
+    "offline",
+    "is-online",
+    "network",
+    "connected",
+    "connectivity",
+    "internet",
+    "is",
+    "has",
+    "detect",
+    "hostname",
+    "hostnames",
+    "dns",
+    "socket",
+    "reachable",
+    "reachability",
+    "ping"
+  ],
+  "dependencies": {
+    "net-ping": "^1.2.3"
+  },
+  "devDependencies": {
+    "jest": "23.6.0"
+  }
+}
