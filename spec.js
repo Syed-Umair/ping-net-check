@@ -30,7 +30,7 @@ describe ('Ping based NetCheck', () => {
 
     test('test netCheck method with impossible timeout', async () => {
         expect (await netCheck({
-            timeout: 5
+            timeout: 0
         })).toBeFalsy();
     })
 });
