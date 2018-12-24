@@ -1,19 +1,37 @@
 const { Resolver } = require('dns');
 const ping = require('net-ping');
 const defaults = {
-    host: 'google.com',
-    timeout: 2000
-}
+    host: null,
+    timeout: 3500
+};
 
-function getIp(options) {
-    if(options && options.host && options.timeout) {
+const NETWORK_CHECK_URLS = [
+    'ifconfig.co',
+	'icanhazip.com',
+    'symbolics.com',
+    'time.google.com',
+    '0.pool.ntp.org',
+    '1.pool.ntp.org',
+    '2.pool.ntp.org',
+    '3.pool.ntp.org'
+];
+
+const getRandomURL = () => {
+	let max = NETWORK_CHECK_URLS.length - 1;
+	let min = 0;
+	let random = Math.floor(Math.random()*(max-min+1)+min);
+	return NETWORK_CHECK_URLS[random];
+};
+
+const getIp = (host, timeout) => {
+    if(host && timeout) {
         return new Promise((resolve, reject) => {
             const resolver = new Resolver();
             setTimeout(() => {
                 resolver.cancel();
                 reject(new Error('Get IP timedOut'));
-            }, options.timeout);
-            resolver.resolve4(options.host, (err, addresses) => {
+            }, timeout);
+            resolver.resolve4(host, (err, addresses) => {
                 if (err) {
                     reject(err);
                 }
@@ -21,16 +39,16 @@ function getIp(options) {
                     // console.log('addresses::', addresses);
                     resolve(addresses[0]);
                 } else {
-                    reject(new Error(`No Address Found for the ${options.host}`));
+                    reject(new Error(`No Address Found for the ${host}`));
                 }
             });
         });
     } else {
         throw new Error("Invalid Parameters");
     }
-}
+};
 
-function hitIp(ip, timeout) {
+const hitIp = (ip, timeout) => {
     if (ip && timeout) {
         return new Promise((resolve, reject) => {
             var session = ping.createSession({
@@ -49,24 +67,39 @@ function hitIp(ip, timeout) {
     } else {
         throw new Error("Invalid Parameters");
     }
-}
+};
 
-async function netCheck(options) {
-    try {
-        options = {
-            ...defaults,
-            ...options
-        };
-        let ip = await getIp(options);
-        return await hitIp(ip, options.timeout)
-    } catch (e) {
-        // console.error(e);
-        return false;
+const checkReachablity = async (host, timeout) => {
+    if (host && timeout) {
+        try {
+            let ip = await getIp(host, timeout);
+            return await hitIp(ip, timeout);
+        } catch (e) {
+            // console.error(e);
+            return false;
+        }
+    } else {
+        throw new Error("Invalid Parameters");
     }
-}
+};
+
+const netCheck = async (options) => {
+    options = {
+        ...defaults,
+        ...options
+    };
+    let response = await checkReachablity(getRandomURL(), options.timeout);
+    if (!response && options.host) {
+        response = await checkReachablity(options.host, options.timeout);
+    }
+    return response;
+};
 
 module.exports = {
+    NETWORK_CHECK_URLS,
+    getRandomURL,
     getIp,
     hitIp,
+    checkReachablity,
     netCheck
 }
