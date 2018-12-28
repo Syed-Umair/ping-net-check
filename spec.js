@@ -1,6 +1,4 @@
 const {
-    NETWORK_CHECK_URLS,
-    getRandomURL,
     getIp,
     hitIp,
     checkReachablity,
@@ -10,10 +8,6 @@ const {
 jest.setTimeout(10000);
 
 describe('Ping based NetCheck', () => {
-
-    test('getRandomURL Method should return a valid URL', () => {
-		expect(NETWORK_CHECK_URLS.includes(getRandomURL())).toBeTruthy();
-    })
 
     test('test getIp method without parameters', () => {
         expect(getIp).toThrowError();

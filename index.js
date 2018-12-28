@@ -5,23 +5,7 @@ const defaults = {
     timeout: 3500
 };
 
-const NETWORK_CHECK_URLS = [
-    'ifconfig.co',
-	'icanhazip.com',
-    'symbolics.com',
-    'time.google.com',
-    '0.pool.ntp.org',
-    '1.pool.ntp.org',
-    '2.pool.ntp.org',
-    '3.pool.ntp.org'
-];
-
-const getRandomURL = () => {
-	let max = NETWORK_CHECK_URLS.length - 1;
-	let min = 0;
-	let random = Math.floor(Math.random()*(max-min+1)+min);
-	return NETWORK_CHECK_URLS[random];
-};
+const NETWORK_CHECK_URL = 'clients3.google.com';
 
 const getIp = (host, timeout) => {
     if(host && timeout) {
@@ -88,7 +72,7 @@ const netCheck = async (options) => {
         ...defaults,
         ...options
     };
-    let response = await checkReachablity(getRandomURL(), options.timeout);
+    let response = await checkReachablity(NETWORK_CHECK_URL, options.timeout);
     if (!response && options.host) {
         response = await checkReachablity(options.host, options.timeout);
     }
@@ -96,8 +80,6 @@ const netCheck = async (options) => {
 };
 
 module.exports = {
-    NETWORK_CHECK_URLS,
-    getRandomURL,
     getIp,
     hitIp,
     checkReachablity,

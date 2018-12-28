@@ -1,6 +1,6 @@
 {
   "name": "ping-net-check",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Using net-ping to check internet connectivity.",
   "main": "index.js",
   "repository": {
